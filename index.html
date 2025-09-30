@@ -1,1164 +1,424 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>神龙天团 - 企业管理系统</title>
-    <style>
-        /* 全局样式 */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root { --primary: #165DFF; --secondary: #f53f3f; --light: #f2f3f5; --dark: #1d2129; --gray: #86909c; }
-        body { font-family: "Microsoft YaHei", sans-serif; color: var(--dark); background: #fff; line-height: 1.5; }
-        a { text-decoration: none; color: var(--primary); }
-        button, .btn { display: inline-block; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; transition: all .2s; }
-        .btn-primary { background: var(--primary); color: #fff; }
-        .btn-danger { background: var(--secondary); color: #fff; }
-        .btn:hover { opacity: .9; transform: translateY(-1px); }
-        .btn:active { transform: translateY(0); }
-        input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; }
-        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        header { height: 60px; line-height: 60px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
-        .header-content { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 20px; font-weight: bold; color: var(--primary); }
-        .nav { display: flex; gap: 20px; }
-        .nav a { color: var(--dark); }
-        .nav a:hover { color: var(--primary); }
-        .main { margin-top: 60px; min-height: calc(100vh - 120px); padding: 20px 0; }
-        footer { height: 60px; line-height: 60px; text-align: center; color: var(--gray); border-top: 1px solid var(--light); }
-        .login-page { max-width: 400px; margin: 100px auto; padding: 30px; box-shadow: 0 0 20px rgba(0,0,0,0.1); border-radius: 8px; }
-        .login-page h1 { text-align: center; margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; }
-        .btn-block { display: block; width: 100%; }
-        .dashboard { display: grid; grid-template-columns: 200px 1fr; gap: 20px; }
-        .sidebar { background: var(--light); border-radius: 8px; padding: 20px; height: fit-content; position: sticky; top: 80px; }
-        .sidebar-menu { list-style: none; }
-        .sidebar-menu li { margin-bottom: 10px; }
-        .sidebar-menu a { display: block; padding: 8px 10px; border-radius: 4px; color: var(--dark); }
-        .sidebar-menu a:hover, .sidebar-menu a.active { background: var(--primary); color: #fff; }
-        .content { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
-        .page-title { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--light); }
-        .table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        .table th, .table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--light); }
-        .table th { background: var(--light); font-weight: bold; }
-        .table tr:hover { background: rgba(22, 93, 255, 0.03); }
-        .card { background: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05); padding: 20px; margin-bottom: 20px; }
-        .card-title { margin-bottom: 15px; font-size: 18px; }
-        .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; }
-        .badge-admin { background: rgba(245, 63, 63, 0.1); color: var(--secondary); }
-        .badge-member { background: rgba(22, 93, 255, 0.1); color: var(--primary); }
-        .flex { display: flex; }
-        .justify-between { justify-content: space-between; }
-        .align-center { align-items: center; }
-        .mb-20 { margin-bottom: 20px; }
-        .hidden { display: none; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>神龙天团 - 企业管理系统</title>
+<style>
+/* ===== 全局变量 ===== */
+:root {
+    --primary: #165DFF;
+    --primary-light: #4080FF;
+    --primary-dark: #0E42D2;
+    --secondary: #FF7D00;
+    --success: #00B42A;
+    --warning: #FF7D00;
+    --danger: #F53F3F;
+    --dark: #1D2129;
+    --gray: #86909C;
+    --light: #F2F3F5;
+    --white: #FFFFFF;
+    --border: #E5E6EB;
+    --shadow: 0 4px 12px rgba(0,0,0,0.05);
+    --shadow-hover: 0 8px 24px rgba(0,0,0,0.12);
+    --radius: 8px;
+    --transition: all .25s ease;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--dark);
+    background-color: var(--light);
+    line-height: 1.5;
+}
+a { text-decoration: none; color: var(--primary); }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.flex { display: flex; }
+.space-between { justify-content: space-between; }
+.align-center { align-items: center; }
+.mt-10 { margin-top: 10px; }
+.mb-10 { margin-bottom: 10px; }
+.mt-20 { margin-top: 20px; }
+.mb-20 { margin-bottom: 20px; }
+.p-10 { padding: 10px; }
+.p-20 { padding: 20px; }
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    gap: 6px;
+}
+.btn-primary { background: var(--primary); color: var(--white); }
+.btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(22, 93, 255, 0.35); }
+.btn-secondary { background: var(--light); color: var(--dark); }
+.btn-secondary:hover { background: var(--border); }
+.btn-danger { background: var(--danger); color: var(--white); }
+.btn-danger:hover { background: #E03333; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(245, 63, 63, 0.35); }
+.card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    transition: var(--transition);
+}
+.card:hover { box-shadow: var(--shadow-hover); }
+.input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    transition: var(--transition);
+}
+.input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.15);
+}
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border); }
+.table th { background: var(--light); font-weight: 600; }
+.table tr:hover { background: rgba(22, 93, 255, 0.03); }
+
+/* ===== 组件样式 ===== */
+.modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0; visibility: hidden;
+    transition: var(--transition);
+}
+.modal.show { opacity: 1; visibility: visible; }
+.modal-content {
+    background: var(--white);
+    border-radius: var(--radius);
+    width: 90%; max-width: 500px; max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(-20px);
+    transition: var(--transition);
+}
+.modal.show .modal-content { transform: translateY(0); }
+.modal-header {
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+}
+.modal-body { padding: 20px; }
+.modal-footer {
+    padding: 16px 20px; border-top: 1px solid var(--border);
+    display: flex; justify-content: flex-end; gap: 10px;
+}
+.notification {
+    position: fixed; top: 20px; right: 20px;
+    padding: 12px 16px; background: var(--white);
+    border-radius: var(--radius); box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1001; transform: translateX(120%); transition: transform .3s;
+    display: flex; align-items: center; gap: 8px;
+}
+.notification.show { transform: translateX(0); }
+.notification.success { border-left: 4px solid var(--success); }
+.notification.error { border-left: 4px solid var(--danger); }
+.notification.warning { border-left: 4px solid var(--warning); }
+.notification.info { border-left: 4px solid var(--primary); }
+
+/* ===== 页面布局 ===== */
+header {
+    height: 60px; line-height: 60px; background: var(--white);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: fixed;
+    top: 0; left: 0; right: 0; z-index: 100;
+}
+.header-content { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 20px; font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+.nav { display: flex; gap: 20px; }
+.nav a { color: var(--dark); transition: var(--transition); }
+.nav a:hover, .nav a.active { color: var(--primary); }
+.main { margin-top: 80px; min-height: calc(100vh - 140px); }
+footer {
+    height: 60px; line-height: 60px; text-align: center;
+    color: var(--gray); border-top: 1px solid var(--border);
+}
+.sidebar {
+    width: 200px; background: var(--white); border-radius: var(--radius);
+    padding: 20px; box-shadow: var(--shadow);
+}
+.sidebar-menu { list-style: none; }
+.sidebar-menu li { margin-bottom: 8px; }
+.sidebar-menu a {
+    display: block; padding: 8px 10px; border-radius: 4px;
+    color: var(--dark); transition: var(--transition);
+}
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background: var(--primary); color: var(--white);
+}
+.dashboard { display: grid; grid-template-columns: 220px 1fr; gap: 20px; }
+.page-title { font-size: 24px; font-weight: 600; margin-bottom: 20px; }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+.auth-container {
+    max-width: 400px; margin: 100px auto;
+}
+.loading {
+    display: inline-block;
+    width: 20px; height: 20px;
+    border: 3px solid rgba(22, 93, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary);
+    animation: spin 1s ease-in-out infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+</head><body><div id="app"><div id="router-view"></div></div>
+<div id="modal" class="modal"><div class="modal-content"><div class="modal-header"><h3 id="modal-title"></h3><button id="modal-close" class="btn btn-secondary">×</button></div><div id="modal-body" class="modal-body"></div><div id="modal-footer" class="modal-footer"></div></div></div>
+<div id="notification" class="notification"></div>
+<script src="https://cdn.jsdelivr.net/npm/idb@7/build/umd.js"></script>
+<script>// ===== 工具函数 =====const utils = {now() { return new Date().toISOString(); },formatDate(dateStr) { return new Date(dateStr).toLocaleString(); },uuid() { return Date.now().toString(36) + Math.random().toString(36).substr(2, 5); },debounce(fn, wait) {let timer = null;return function(...args) {if (timer) clearTimeout(timer);timer = setTimeout(() => fn.apply(this, args), wait);};},throttle(fn, gapTime) {let lastTime = 0;return function(...args) {const now = Date.now();if (now - lastTime > gapTime) {lastTime = now;fn.apply(this, args);}};},randomColor() {const colors = ['#165DFF', '#00B42A', '#FF7D00', '#F53F3F', '#722ED1', '#EB0AA4'];return colors[Math.floor(Math.random() * colors.length)];}};
+// ===== 事件总线 =====class EventBus {constructor() {this.events = {};}on(name, fn) {if (!this.events[name]) this.events[name] = [];this.events[name].push(fn);}off(name, fn) {if (!this.events[name]) return;this.events[name] = this.events[name].filter(f => f !== fn);}emit(name, ...args) {if (!this.events[name]) return;this.events[name].forEach(fn => fn(...args));}}const bus = new EventBus();
+// ===== 数据库服务 =====const DB_NAME = 'DragonGroupDB';const DB_VERSION = 2;const STORES = ['users', 'roles', 'posts', 'resources', 'settings'];
+const dbPromise = idb.openDB(DB_NAME, DB_VERSION, {upgrade(db) {STORES.forEach(store => {if (!db.objectStoreNames.contains(store)) {let keyPath = 'id';let autoIncrement = true;const os = db.createObjectStore(store, { keyPath, autoIncrement });if (store === 'users') os.createIndex('username', 'username', { unique: true });if (store === 'roles') os.createIndex('name', 'name', { unique: true });}});// 默认数据const rolesStore = db.transaction('roles', 'readwrite').objectStore('roles');rolesStore.getAll().then(roles => {if (!roles.some(r => r.name === '超级管理员')) {rolesStore.add({ name: '超级管理员', permissions: ['all'] });}if (!roles.some(r => r.name === '普通成员')) {rolesStore.add({ name: '普通成员', permissions: ['view', 'forum:post'] });}});const settingsStore = db.transaction('settings', 'readwrite').objectStore('settings');settingsStore.getAll().then(settings => {if (!settings.some(s => s.key === 'siteName')) {settingsStore.add({ key: 'siteName', value: '神龙天团' });}if (!settings.some(s => s.key === 'siteDescription')) {settingsStore.add({ key: 'siteDescription', value: '企业管理系统' });}});}});
+// ===== 加密服务 =====class CryptoService {async hashPassword(password) {try {const encoder = new TextEncoder();const data = encoder.encode(password);const salt = crypto.getRandomValues(new Uint8Array(16));const keyMaterial = await crypto.subtle.importKey('raw', data, { name: 'PBKDF2' }, false, ['deriveBits', 'deriveKey']);const key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },keyMaterial, { name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt']);const exported = await crypto.subtle.exportKey('jwk', key);return { hash: exported.k, salt: Array.from(salt) };} catch (e) {console.error('密码加密失败', e);throw new Error('加密服务不可用');}}async verifyPassword(password, storedHash, storedSalt) {try {const encoder = new TextEncoder();const data = encoder.encode(password);const salt = new Uint8Array(storedSalt);const keyMaterial = await crypto.subtle.importKey('raw', data, { name: 'PBKDF2' }, false, ['deriveBits', 'deriveKey']);const key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },keyMaterial, { name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt']);const exported = await crypto.subtle.exportKey('jwk', key);return exported.k === storedHash;} catch (e) {console.error('密码验证失败', e);return false;}}}const cryptoService = new CryptoService();
+// ===== 认证服务 =====class AuthService {constructor() {this.currentUser = null;this.init();}async init() {try {const userId = localStorage.getItem('userId');if (userId) {const db = await dbPromise;const user = await db.get('users', parseInt(userId));if (user) {const role = await db.get('roles', user.roleId);this.currentUser = { ...user, role };bus.emit('auth:ready', this.currentUser);}} else {bus.emit('auth:ready', null);}} catch (e) {console.error('认证初始化失败', e);bus.emit('auth:error', e);}}async login(username, password) {try {const db = await dbPromise;const users = await db.getAllFromIndex('users', 'username', username);if (users.length === 0) return { success: false, message: '用户名不存在' };const user = users[0];const isValid = await cryptoService.verifyPassword(password, user.passwordHash, user.salt);if (isValid) {const role = await db.get('roles', user.roleId);this.currentUser = { ...user, role };localStorage.setItem('userId', user.id);bus.emit('auth:login', this.currentUser);return { success: true, user: this.currentUser };} else {return { success: false, message: '密码错误' };}} catch (e) {console.error('登录失败', e);return { success: false, message: '登录失败，请重试' };}}logout() {this.currentUser = null;localStorage.removeItem('userId');bus.emit('auth:logout');}async register(username, password, roleId) {try {const db = await dbPromise;const exists = await db.getAllFromIndex('users', 'username', username);if (exists.length > 0) return { success: false, message: '用户名已存在' };const { hash, salt } = await cryptoService.hashPassword(password);const user = { username, passwordHash: hash, salt, roleId, status: 'active', createdAt: utils.now() };const id = await db.add('users', user);bus.emit('user:added', { ...user, id });return { success: true, user: { ...user, id } };} catch (e) {console.error('注册失败', e);return { success: false, message: '注册失败，请重试' };}}async createAdmin(username, password) {try {const db = await dbPromise;const adminRole = await db.getFromIndex('roles', 'name', '超级管理员');if (!adminRole) return { success: false, message: '管理员角色不存在' };const exists = await db.getAllFromIndex('users', 'username', username);if (exists.length > 0) return { success: false, message: '用户名已存在' };const { hash, salt } = await cryptoService.hashPassword(password);const user = { username, passwordHash: hash, salt, roleId: adminRole.id, status: 'active', createdAt: utils.now() };const id = await db.add('users', user);bus.emit('admin:created', { ...user, id });return { success: true, user: { ...user, id } };} catch (e) {console.error('创建管理员失败', e);return { success: false, message: '创建管理员失败，请重试' };}}hasPermission(permission) {if (!this.currentUser || !this.currentUser.role) return false;return this.currentUser.role.permissions.includes('all') || this.currentUser.role.permissions.includes(permission);}isSuperAdmin() {return this.currentUser && this.currentUser.role && this.currentUser.role.permissions.includes('all');}}const authService = new AuthService();
+// ===== UI工具 =====class UI {static modal(title, content, buttons = []) {const modal = document.getElementById('modal');const modalTitle = document.getElementById('modal-title');const modalBody = document.getElementById('modal-body');const modalFooter = document.getElementById('modal-footer');modalTitle.textContent = title;modalBody.innerHTML = content;modalFooter.innerHTML = '';buttons.forEach(btn => {const b = document.createElement('button');b.className = `btn ${btn.className || 'btn-secondary'}`;b.textContent = btn.text;b.onclick = () => {btn.action();modal.classList.remove('show');};modalFooter.appendChild(b);});modal.classList.add('show');document.getElementById('modal-close').onclick = () => {modal.classList.remove('show');};}static notify(message, type = 'success', duration = 3000) {const notification = document.getElementById('notification');notification.textContent = message;notification.className = `notification ${type}`;notification.classList.add('show');setTimeout(() => {notification.classList.remove('show');}, duration);}static confirm(message, okAction) {this.modal('确认', message, [{ text: '取消', className: 'btn-secondary', action: () => {} },{ text: '确认', className: 'btn-danger', action: okAction }]);}static loading(container) {const el = document.createElement('div');el.className = 'loading';if (container) {container.innerHTML = '';container.appendChild(el);return el;}return el;}static skeleton(container, height = '20px', width = '100%', borderRadius = '4px') {const el = document.createElement('div');el.className = 'skeleton';el.style.height = height;el.style.width = width;el.style.borderRadius = borderRadius;if (container) {container.innerHTML = '';container.appendChild(el);}return el;}}
+// ===== 路由服务 =====class Router {constructor() {this.routes = {};this.middlewares = [];this.currentPath = '';this.beforeEach = null;this.afterEach = null;window.addEventListener('popstate', () => this.handleRoute());}route(path, component, middlewares = []) {this.routes[path] = { component, middlewares };}use(middleware) {this.middlewares.push(middleware);}setBeforeEach(fn) {this.beforeEach = fn;}setAfterEach(fn) {this.afterEach = fn;}async handleRoute() {const path = window.location.pathname || '/';this.currentPath = path;
+plaintext
+    if (this.beforeEach) {
+        const ok = await this.beforeEach(path);
+        if (!ok) return;
+    }
+    
+    const route = this.routes[path] || this.routes[&#x27;*&#x27;];
+    if (!route) return;
+    
+    const allMiddlewares = [...this.middlewares, ...route.middlewares];
+    for (const m of allMiddlewares) {
+        if (!await m()) return;
+    }
+    
+    const container = document.getElementById(&#x27;router-view&#x27;);
+    try {
+        container.innerHTML = &#x27;&#x27;;
+        UI.skeleton(container, &#x27;300px&#x27;);
+        const content = await route.component();
+        container.innerHTML = content;
+        this.bindEvents();
         
-        /* 编辑器样式 */
-        .editor-toolbar { display: flex; gap: 10px; padding: 10px; background: var(--light); border-radius: 4px 4px 0 0; }
-        .editor-content { min-height: 300px; border: 1px solid #ddd; border-top: none; border-radius: 0 0 4px 4px; padding: 10px; }
-        
-        /* 资源列表样式 */
-        .resource-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid var(--light); }
-        .resource-item:last-child { border-bottom: none; }
-    </style>
-</head>
-<body>
-    <div id="app">
-        <div id="router-view"></div>
-    </div>
-
-    <script>
-        // 数据库服务
-        class DBService {
-            constructor() {
-                this.dbName = 'DragonGroupDB';
-                this.dbVersion = 1;
-                this.db = null;
-                this.tables = ['users', 'roles', 'posts', 'resources', 'settings'];
-                this.init();
-            }
-
-            async init() {
-                return new Promise((resolve, reject) => {
-                    const request = indexedDB.open(this.dbName, this.dbVersion);
-                    
-                    request.onupgradeneeded = (event) => {
-                        this.db = event.target.result;
-                        
-                        this.tables.forEach(table => {
-                            if (!this.db.objectStoreNames.contains(table)) {
-                                this.db.createObjectStore(table, { keyPath: 'id', autoIncrement: true });
-                            }
-                        });
-                        
-                        this.initializeDefaultData();
-                    };
-                    
-                    request.onsuccess = (event) => {
-                        this.db = event.target.result;
-                        resolve(this.db);
-                    };
-                    
-                    request.onerror = (event) => {
-                        console.error('IndexedDB error:', event.target.error);
-                        reject(event.target.error);
-                    };
-                });
-            }
-
-            async initializeDefaultData() {
-                const tx = this.db.transaction(this.tables, 'readwrite');
-                
-                // 创建默认角色
-                const rolesStore = tx.objectStore('roles');
-                rolesStore.getAll().onsuccess = e => {
-                    const roles = e.target.result;
-                    if (!roles.some(role => role.permissions?.includes('all'))) {
-                        rolesStore.add({
-                            name: '超级管理员',
-                            permissions: ['all'],
-                            description: '拥有所有权限'
-                        });
-                    }
-                    if (!roles.some(role => role.name === '普通成员')) {
-                        rolesStore.add({
-                            name: '普通成员',
-                            permissions: ['view', 'forum:post'],
-                            description: '基础访问权限'
-                        });
-                    }
-                };
-                
-                // 创建默认设置
-                const settingsStore = tx.objectStore('settings');
-                settingsStore.getAll().onsuccess = e => {
-                    const settings = e.target.result;
-                    if (!settings.some(s => s.key === 'siteName')) {
-                        settingsStore.add({ key: 'siteName', value: '神龙天团' });
-                        settingsStore.add({ key: 'siteDescription', value: '企业管理系统' });
-                    }
-                };
-                
-                return new Promise(resolve => tx.oncomplete = resolve);
-            }
-
-            async get(table, id) {
-                return new Promise((resolve, reject) => {
-                    const tx = this.db.transaction(table, 'readonly');
-                    const store = tx.objectStore(table);
-                    const request = store.get(id);
-                    
-                    request.onsuccess = () => resolve(request.result);
-                    request.onerror = () => reject(request.error);
-                });
-            }
-
-            async getAll(table) {
-                return new Promise((resolve, reject) => {
-                    const tx = this.db.transaction(table, 'readonly');
-                    const store = tx.objectStore(table);
-                    const request = store.getAll();
-                    
-                    request.onsuccess = () => resolve(request.result);
-                    request.onerror = () => reject(request.error);
-                });
-            }
-
-            async add(table, data) {
-                return new Promise((resolve, reject) => {
-                    const tx = this.db.transaction(table, 'readwrite');
-                    const store = tx.objectStore(table);
-                    const item = { ...data, createdAt: new Date().toISOString() };
-                    const request = store.add(item);
-                    
-                    request.onsuccess = () => resolve({ ...item, id: request.result });
-                    request.onerror = () => reject(request.error);
-                });
-            }
-
-            async update(table, data) {
-                return new Promise((resolve, reject) => {
-                    const tx = this.db.transaction(table, 'readwrite');
-                    const store = tx.objectStore(table);
-                    const item = { ...data, updatedAt: new Date().toISOString() };
-                    const request = store.put(item);
-                    
-                    request.onsuccess = () => resolve(item);
-                    request.onerror = () => reject(request.error);
-                });
-            }
-
-            async delete(table, id) {
-                return new Promise((resolve, reject) => {
-                    const tx = this.db.transaction(table, 'readwrite');
-                    const store = tx.objectStore(table);
-                    const request = store.delete(id);
-                    
-                    request.onsuccess = () => resolve(true);
-                    request.onerror = () => reject(request.error);
-                });
-            }
-
-            async query(table, filter) {
-                return new Promise((resolve, reject) => {
-                    const tx = this.db.transaction(table, 'readonly');
-                    const store = tx.objectStore(table);
-                    const request = store.openCursor();
-                    const results = [];
-                    
-                    request.onsuccess = (event) => {
-                        const cursor = event.target.result;
-                        if (cursor) {
-                            if (filter(cursor.value)) {
-                                results.push(cursor.value);
-                            }
-                            cursor.continue();
-                        } else {
-                            resolve(results);
-                        }
-                    };
-                    
-                    request.onerror = () => reject(request.error);
-                });
-            }
+        if (this.afterEach) {
+            this.afterEach(path);
         }
-
-        // 加密服务
-        class CryptoService {
-            constructor() {
-                this.init();
-            }
-
-            async init() {
-                try {
-                    // 检查浏览器是否支持加密API
-                    if (window.crypto && window.crypto.subtle) {
-                        this.useWebCrypto = true;
-                    } else {
-                        this.useWebCrypto = false;
-                    }
-                } catch (e) {
-                    console.error('Crypto initialization error:', e);
-                    this.useWebCrypto = false;
-                }
-            }
-
-            async hashPassword(password) {
-                try {
-                    if (this.useWebCrypto) {
-                        const encoder = new TextEncoder();
-                        const data = encoder.encode(password);
-                        const salt = window.crypto.getRandomValues(new Uint8Array(16));
-                        
-                        // 使用PBKDF2派生密钥
-                        const keyMaterial = await window.crypto.subtle.importKey(
-                            "raw",
-                            data,
-                            { name: "PBKDF2" },
-                            false,
-                            ["deriveBits", "deriveKey"]
-                        );
-                        
-                        const key = await window.crypto.subtle.deriveKey(
-                            {
-                                name: "PBKDF2",
-                                salt: salt,
-                                iterations: 100000,
-                                hash: "SHA-256"
-                            },
-                            keyMaterial,
-                            { name: "AES-GCM", length: 256 },
-                            true, // 允许提取密钥
-                            ["encrypt", "decrypt"]
-                        );
-                        
-                        const exported = await window.crypto.subtle.exportKey("jwk", key);
-                        return {
-                            hash: exported.k,
-                            salt: Array.from(salt)
-                        };
-                    } else {
-                        // 降级使用简单哈希
-                        return this.fallbackHash(password);
-                    }
-                } catch (e) {
-                    console.error('Password hashing error:', e);
-                    return this.fallbackHash(password);
-                }
-            }
-
-            fallbackHash(password) {
-                // 简单哈希算法，用于不支持Web Crypto的浏览器
-                let hash = 0;
-                for (let i = 0; i < password.length; i++) {
-                    const char = password.charCodeAt(i);
-                    hash = ((hash << 5) - hash) + char;
-                    hash = hash & hash;
-                }
-                return {
-                    hash: hash.toString(36),
-                    salt: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-                };
-            }
-
-            async verifyPassword(password, storedHash, storedSalt) {
-                try {
-                    if (this.useWebCrypto) {
-                        const encoder = new TextEncoder();
-                        const data = encoder.encode(password);
-                        const salt = new Uint8Array(storedSalt);
-                        
-                        const keyMaterial = await window.crypto.subtle.importKey(
-                            "raw",
-                            data,
-                            { name: "PBKDF2" },
-                            false,
-                            ["deriveBits", "deriveKey"]
-                        );
-                        
-                        const key = await window.crypto.subtle.deriveKey(
-                            {
-                                name: "PBKDF2",
-                                salt: salt,
-                                iterations: 100000,
-                                hash: "SHA-256"
-                            },
-                            keyMaterial,
-                            { name: "AES-GCM", length: 256 },
-                            true, // 需要提取密钥进行验证
-                            ["encrypt", "decrypt"]
-                        );
-                        
-                        const exported = await window.crypto.subtle.exportKey("jwk", key);
-                        return exported.k === storedHash;
-                    } else {
-                        // 降级使用简单哈希验证
-                        return this.fallbackHash(password).hash === storedHash;
-                    }
-                } catch (e) {
-                    console.error('Password verification error:', e);
-                    return this.fallbackHash(password).hash === storedHash;
-                }
-            }
-        }
-
-        // 认证服务
-        class AuthService {
-            constructor() {
-                this.currentUser = null;
-                this.init();
-            }
-
-            async init() {
-                // 检查本地存储中是否有用户信息
-                const userId = localStorage.getItem('userId');
-                if (userId) {
-                    const user = await dbService.get('users', parseInt(userId));
-                    if (user) {
-                        const role = await dbService.get('roles', user.roleId);
-                        this.currentUser = { ...user, role };
-                    }
-                }
-            }
-
-            async login(username, password) {
-                const users = await dbService.query('users', user => user.username === username);
-                if (users.length === 0) return { success: false, message: '用户名不存在' };
-                
-                const user = users[0];
-                const isValid = await cryptoService.verifyPassword(password, user.passwordHash, user.salt);
-                
-                if (isValid) {
-                    const role = await dbService.get('roles', user.roleId);
-                    this.currentUser = { ...user, role };
-                    localStorage.setItem('userId', user.id);
-                    return { success: true, user: this.currentUser };
-                } else {
-                    return { success: false, message: '密码错误' };
-                }
-            }
-
-            logout() {
-                this.currentUser = null;
-                localStorage.removeItem('userId');
-                router.navigate('/login');
-            }
-
-            async register(userData) {
-                // 检查用户名是否已存在
-                const existingUsers = await dbService.query('users', u => u.username === userData.username);
-                if (existingUsers.length > 0) {
-                    return { success: false, message: '用户名已存在' };
-                }
-                
-                const { hash, salt } = await cryptoService.hashPassword(userData.password);
-                const user = {
-                    username: userData.username,
-                    passwordHash: hash,
-                    salt: salt,
-                    roleId: userData.roleId,
-                    status: 'active'
-                };
-                
-                const result = await dbService.add('users', user);
-                return { success: true, user: result };
-            }
-
-            async createAdminAccount(username, password) {
-                // 检查是否已有管理员
-                const adminRole = await dbService.query('roles', r => r.permissions?.includes('all'));
-                if (!adminRole.length) return { success: false, message: '没有管理员角色' };
-                
-                const existingAdmin = await dbService.query('users', u => u.roleId === adminRole[0].id);
-                if (existingAdmin.length > 0) {
-                    return { success: false, message: '管理员已存在' };
-                }
-                
-                const { hash, salt } = await cryptoService.hashPassword(password);
-                const user = {
-                    username: username,
-                    passwordHash: hash,
-                    salt: salt,
-                    roleId: adminRole[0].id,
-                    status: 'active'
-                };
-                
-                const result = await dbService.add('users', user);
-                return { success: true, user: result };
-            }
-
-            async getUserById(id) {
-                const user = await dbService.get('users', id);
-                if (!user) return null;
-                
-                const role = await dbService.get('roles', user.roleId);
-                return { ...user, role };
-            }
-
-            hasPermission(permission) {
-                if (!this.currentUser || !this.currentUser.role) return false;
-                return this.currentUser.role.permissions.includes('all') || this.currentUser.role.permissions.includes(permission);
-            }
-
-            isSuperAdmin() {
-                return this.currentUser && this.currentUser.role && this.currentUser.role.permissions.includes('all');
-            }
-        }
-
-        // 路由服务
-        class Router {
-            constructor() {
-                this.routes = {};
-                this.middlewares = [];
-                this.currentPath = '';
-                this.init();
-            }
-
-            init() {
-                window.addEventListener('popstate', () => this.handleRouteChange());
-                this.handleRouteChange();
-            }
-
-            route(path, component, middlewares = []) {
-                this.routes[path] = { component, middlewares };
-            }
-
-            use(middleware) {
-                this.middlewares.push(middleware);
-            }
-
-            async handleRouteChange() {
-                const path = window.location.pathname || '/';
-                this.currentPath = path;
-                
-                const route = this.routes[path] || this.routes['*'];
-                if (!route) return;
-                
-                const allMiddlewares = [...this.middlewares, ...route.middlewares];
-                let canProceed = true;
-                
-                for (const middleware of allMiddlewares) {
-                    const result = await middleware();
-                    if (!result) {
-                        canProceed = false;
-                        break;
-                    }
-                }
-                
-                if (canProceed && route.component) {
-                    const container = document.getElementById('router-view');
-                    
-                    try {
-                        const content = await route.component();
-                        container.innerHTML = content;
-                        this.initEventListeners();
-                    } catch (err) {
-                        console.error('Component render error:', err);
-                        container.innerHTML = `<div class="main"><div class="container"><p>页面加载失败: ${err.message}</p></div></div>`;
-                    }
-                }
-            }
-
-            navigate(path) {
-                window.history.pushState({}, '', path);
-                this.handleRouteChange();
-            }
-
-            initEventListeners() {
-                document.querySelectorAll('a[data-route]').forEach(link => {
-                    link.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        this.navigate(link.getAttribute('href'));
-                    });
-                });
-            }
-
-            getCurrentPath() {
-                return this.currentPath;
-            }
-        }
-
-        // 编辑器组件
-        class Editor {
-            constructor(containerId, saveCallback) {
-                this.container = document.getElementById(containerId);
-                this.saveCallback = saveCallback;
-                this.activeElement = null;
-                this.isEditing = false;
-                this.init();
-            }
-
-            init() {
-                if (!this.container) return;
-                
-                this.createToolbar();
-                this.createContentArea();
-                this.setupEventListeners();
-            }
-
-            createToolbar() {
-                const toolbar = document.createElement('div');
-                toolbar.className = 'editor-toolbar';
-                
-                const buttons = [
-                    { icon: '✏️', action: 'edit', title: '编辑' },
-                    { icon: '🖼️', action: 'image', title: '插入图片' },
-                    { icon: '💾', action: 'save', title: '保存' },
-                    { icon: '🚫', action: 'cancel', title: '取消' }
-                ];
-                
-                buttons.forEach(btn => {
-                    const button = document.createElement('button');
-                    button.innerHTML = btn.icon;
-                    button.title = btn.title;
-                    button.addEventListener('click', () => this.handleAction(btn.action));
-                    toolbar.appendChild(button);
-                });
-                
-                this.container.appendChild(toolbar);
-            }
-
-            createContentArea() {
-                this.contentArea = document.createElement('div');
-                this.contentArea.className = 'editor-content';
-                this.contentArea.contentEditable = false;
-                this.container.appendChild(this.contentArea);
-            }
-
-            setContent(content) {
-                this.contentArea.innerHTML = content;
-            }
-
-            setupEventListeners() {
-                this.contentArea.addEventListener('click', (e) => {
-                    if (this.isEditing) {
-                        this.activeElement = e.target;
-                    }
-                });
-            }
-
-            handleAction(action) {
-                switch (action) {
-                    case 'edit':
-                        this.toggleEditing(true);
-                        break;
-                    case 'image':
-                        this.insertImage();
-                        break;
-                    case 'save':
-                        this.saveContent();
-                        this.toggleEditing(false);
-                        break;
-                    case 'cancel':
-                        this.toggleEditing(false);
-                        break;
-                }
-            }
-
-            toggleEditing(enable) {
-                this.isEditing = enable;
-                this.contentArea.contentEditable = enable;
-                this.contentArea.style.outline = enable ? '2px dashed #165DFF' : 'none';
-            }
-
-            insertImage() {
-                const url = prompt('请输入图片URL:');
-                if (url) {
-                    const img = document.createElement('img');
-                    img.src = url;
-                    img.style.maxWidth = '100%';
-                    
-                    if (this.activeElement) {
-                        this.activeElement.parentNode.insertBefore(img, this.activeElement.nextSibling);
-                    } else {
-                        this.contentArea.appendChild(img);
-                    }
-                    this.activeElement = img;
-                }
-            }
-
-            saveContent() {
-                const content = this.contentArea.innerHTML;
-                if (this.saveCallback) {
-                    this.saveCallback(content);
-                }
-                alert('内容已保存');
-            }
-        }
-
-        // 全局实例
-        const dbService = new DBService();
-        const cryptoService = new CryptoService();
-        const authService = new AuthService();
-        const router = new Router();
-
-        // 路由中间件 - 权限控制
-        router.use(async () => {
-            const publicRoutes = ['/login', '/setup'];
-            const isPublic = publicRoutes.includes(router.getCurrentPath());
-            
-            // 检查是否需要显示设置页面
-            const users = await dbService.getAll('users');
-            if (users.length === 0 && router.getCurrentPath() !== '/setup') {
-                router.navigate('/setup');
-                return false;
-            }
-            
-            if (!authService.currentUser && !isPublic) {
-                router.navigate('/login');
-                return false;
-            }
-            
-            if (authService.currentUser && isPublic) {
-                router.navigate('/');
-                return false;
-            }
-            
-            return true;
+    } catch (err) {
+        console.error(&#x27;&#x9875;&#x9762;&#x6E32;&#x67D3;&#x5931;&#x8D25;&#x27;, err);
+        container.innerHTML = &#x60;&#x3C;div class=&#x22;main container&#x22;&#x3E;&#x3C;div class=&#x22;card&#x22;&#x3E;&#x3C;p&#x3E;&#x9875;&#x9762;&#x52A0;&#x8F7D;&#x5931;&#x8D25;: ${err.message}&#x3C;/p&#x3E;&#x3C;/div&#x3E;&#x3C;/div&#x3E;&#x60;;
+    }
+}
+navigate(path) {
+    window.history.pushState({}, &#x27;&#x27;, path);
+    this.handleRoute();
+}
+bindEvents() {
+    document.querySelectorAll(&#x27;[data-route]&#x27;).forEach(el =&#x3E; {
+        el.addEventListener(&#x27;click&#x27;, e =&#x3E; {
+            e.preventDefault();
+            this.navigate(el.getAttribute(&#x27;href&#x27;));
         });
+    });
+}
+}const router = new Router();
+// ===== 页面组件 =====async function homePage() {const db = await dbPromise;const settings = await db.getAll('settings');const siteName = settings.find(s => s.key === 'siteName')?.value || '神龙天团';const siteDesc = settings.find(s => s.key === 'siteDescription')?.value || '企业管理系统';return `<header><div class="container header-content"><div class="logo"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="{authService.isSuperAdmin() ? &\#x27;\#F53F3F&\#x27; : &\#x27;\#165DFF&\#x27;}&\#x22; stroke-width=&\#x22;2&\#x22; stroke-linecap=&\#x22;round&\#x22; stroke-linejoin=&\#x22;round&\#x22;/&\#x3E; &\#x3C;path d=&\#x22;M2 17L12 22L22 17&\#x22; stroke=&\#x22;{authService.isSuperAdmin() ? '#F53F3F' : '#165DFF'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12L12 17L22 12" stroke="${authService.isSuperAdmin() ? '#F53F3F' : '#165DFF'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>${siteName}</div><div class="nav"><a href="/" data-route class="active">首页</a><a href="/messages" data-route>消息</a><a href="/resources" data-route>资源</a><a href="/members" data-route>成员</a>{authService.isSuperAdmin() ? &\#x27;&\#x3C;a href=&\#x22;/admin&\#x22; data-route&\#x3E;&\#x7BA1;&\#x7406;&\#x3C;/a&\#x3E;&\#x27; : &\#x27;&\#x27;} &\#x3C;a href=&\#x22;\#&\#x22; id=&\#x22;logout&\#x22; data-route&\#x3E;&\#x9000;&\#x51FA;&\#x3C;/a&\#x3E; &\#x3C;/div&\#x3E; &\#x3C;/div&\#x3E; &\#x3C;/header&\#x3E; &\#x3C;div class=&\#x22;main container&\#x22;&\#x3E; &\#x3C;h1 class=&\#x22;page-title&\#x22;&\#x3E;{siteName}</h1><div class="card"><p>${siteDesc}</p>${authService.isSuperAdmin() ? '<button id="edit-home" class="btn btn-primary mt-10">编辑首页</button>' : ''}</div></div><footer><div class="container">© ${new Date().getFullYear()} ${siteName}</div></footer>`;}
+async function loginPage() {return `<div class="auth-container container"><div class="card"><h2 class="page-title">登录</h2><form id="login-form"><div class="form-group"><label>用户名</label><input type="text" id="username" class="input" required></div><div class="form-group"><label>密码</label><input type="password" id="password" class="input" required></div><button type="submit" class="btn btn-primary w-100">登录</button></form></div></div>`;}
+async function setupPage() {return `<div class="auth-container container"><div class="card"><h2 class="page-title">系统初始化</h2><p class="mb-20">请创建管理员账号</p><form id="setup-form"><div class="form-group"><label>管理员用户名</label><input type="text" id="admin-username" class="input" value="admin" required></div><div class="form-group"><label>管理员密码</label><input type="password" id="admin-password" class="input" required></div><button type="submit" class="btn btn-primary w-100">创建</button></form></div></div>`;}
+async function messagesPage() {const db = await dbPromise;const posts = await db.getAll('posts');return `<header><div class="container header-content"><div class="logo">神龙天团</div><div class="nav"><a href="/" data-route>首页</a><a href="/messages" data-route class="active">消息</a><a href="/resources" data-route>资源</a><a href="/members" data-route>成员</a>${authService.isSuperAdmin() ? '<a href="/admin" data-route>管理</a>' : ''}<a href="#" id="logout" data-route>退出</a></div></div></header><div class="main container"><div class="flex space-between align-center mb-20"><h1 class="page-title">官方消息</h1>${authService.hasPermission('post:create') ? '<button id="create-post" class="btn btn-primary">发布消息</button>' : ''}</div><div class="posts">{posts.length ? posts.map(p =&\#x3E; &\#x60; &\#x3C;div class=&\#x22;card mb-10&\#x22;&\#x3E; &\#x3C;h3&\#x3E;{p.title}</h3><p class="text-gray">{utils.formatDate(p.createdAt)}&\#x3C;/p&\#x3E; &\#x3C;div class=&\#x22;mt-10&\#x22;&\#x3E;{p.content}</div>{authService.hasPermission(&\#x27;post:edit&\#x27;) ? &\#x60; &\#x3C;div class=&\#x22;mt-10&\#x22;&\#x3E; &\#x3C;button class=&\#x22;btn btn-secondary edit-post&\#x22; data-id=&\#x22;{p.id}">编辑</button><button class="btn btn-danger delete-post" data-id="${p.id}">删除</button></div>` : ''}</div>`).join('') : '<p>暂无消息</p>'}</div></div><footer><div class="container">© ${new Date().getFullYear()} 神龙天团</div></footer>`;}
+async function resourcesPage() {const db = await dbPromise;const resources = await db.getAll('resources');return `<header><div class="container header-content"><div class="logo">神龙天团</div><div class="nav"><a href="/" data-route>首页</a><a href="/messages" data-route>消息</a><a href="/resources" data-route class="active">资源</a><a href="/members" data-route>成员</a>${authService.isSuperAdmin() ? '<a href="/admin" data-route>管理</a>' : ''}<a href="#" id="logout" data-route>退出</a></div></div></header><div class="main container"><div class="flex space-between align-center mb-20"><h1 class="page-title">资源下载</h1>${authService.hasPermission('resource:upload') ? `<div><input type="file" id="resource-file" style="display:none"><button id="upload-resource" class="btn btn-primary">上传资源</button></div>` : ''}</div><div class="resources">{resources.length ? resources.map(r =&\#x3E; &\#x60; &\#x3C;div class=&\#x22;card mb-10&\#x22;&\#x3E; &\#x3C;div class=&\#x22;flex space-between align-center&\#x22;&\#x3E; &\#x3C;h3&\#x3E;{r.name}</h3><span>{r.size}&\#x3C;/span&\#x3E; &\#x3C;/div&\#x3E; &\#x3C;p class=&\#x22;mt-10&\#x22;&\#x3E;{r.description}</p><p class="text-gray">{utils.formatDate(r.createdAt)}&\#x3C;/p&\#x3E; &\#x3C;div class=&\#x22;mt-10&\#x22;&\#x3E; &\#x3C;a href=&\#x22;{r.url}" class="btn btn-primary" download>下载</a>{authService.hasPermission(&\#x27;resource:delete&\#x27;) ? &\#x60; &\#x3C;button class=&\#x22;btn btn-danger delete-resource&\#x22; data-id=&\#x22;{r.id}">删除</button>` : ''}</div></div>`).join('') : '<p>暂无资源</p>'}</div></div><footer><div class="container">© ${new Date().getFullYear()} 神龙天团</div></footer>`;}
+async function membersPage() {const db = await dbPromise;const users = await db.getAll('users');const roles = await db.getAll('roles');return `<header><div class="container header-content"><div class="logo">神龙天团</div><div class="nav"><a href="/" data-route>首页</a><a href="/messages" data-route>消息</a><a href="/resources" data-route>资源</a><a href="/members" data-route class="active">成员</a>${authService.isSuperAdmin() ? '<a href="/admin" data-route>管理</a>' : ''}<a href="#" id="logout" data-route>退出</a></div></div></header><div class="main container"><div class="flex space-between align-center mb-20"><h1 class="page-title">成员列表</h1>${authService.isSuperAdmin() ? '<button id="add-member" class="btn btn-primary">添加成员</button>' : ''}</div><div class="card"><table class="table"><thead><tr><th>ID</th><th>用户名</th><th>角色</th><th>创建时间</th>${authService.isSuperAdmin() ? '<th>操作</th>' : ''}</tr></thead><tbody>{users.map(u =&\#x3E; { const role = roles.find(r =&\#x3E; r.id === u.roleId) || { name: &\#x27;&\#x672A;&\#x77E5;&\#x27; }; return &\#x60; &\#x3C;tr&\#x3E; &\#x3C;td&\#x3E;{u.id}</td><td>{u.username}&\#x3C;/td&\#x3E; &\#x3C;td&\#x3E;{role.name}</td><td>${utils.formatDate(u.createdAt)}</td>{authService.isSuperAdmin() ? &\#x60; &\#x3C;td&\#x3E; &\#x3C;button class=&\#x22;btn btn-danger delete-member&\#x22; data-id=&\#x22;{u.id}">删除</button></td>` : ''}</tr>`;}).join('')}</tbody></table></div></div><footer><div class="container">© ${new Date().getFullYear()} 神龙天团</div></footer>`;}
+async function adminPage() {if (!authService.isSuperAdmin()) {return `<div class="main container"><div class="card"><p>没有管理员权限</p></div></div>`;}const db = await dbPromise;const users = await db.getAll('users');const roles = await db.getAll('roles');return `<header><div class="container header-content"><div class="logo">神龙天团</div><div class="nav"><a href="/" data-route>首页</a><a href="/messages" data-route>消息</a><a href="/resources" data-route>资源</a><a href="/members" data-route>成员</a><a href="/admin" data-route class="active">管理</a><a href="#" id="logout" data-route>退出</a></div></div></header><div class="main container"><h1 class="page-title">管理员面板</h1>
+plaintext
+    &#x3C;div class=&#x22;card mb-20&#x22;&#x3E;
+        &#x3C;h2 class=&#x22;mb-10&#x22;&#x3E;&#x7528;&#x6237;&#x7BA1;&#x7406;&#x3C;/h2&#x3E;
+        &#x3C;button id=&#x22;add-user&#x22; class=&#x22;btn btn-primary mb-10&#x22;&#x3E;&#x6DFB;&#x52A0;&#x7528;&#x6237;&#x3C;/button&#x3E;
+        &#x3C;table class=&#x22;table&#x22;&#x3E;
+            &#x3C;thead&#x3E;
+                &#x3C;tr&#x3E;
+                    &#x3C;th&#x3E;ID&#x3C;/th&#x3E;
+                    &#x3C;th&#x3E;&#x7528;&#x6237;&#x540D;&#x3C;/th&#x3E;
+                    &#x3C;th&#x3E;&#x89D2;&#x8272;&#x3C;/th&#x3E;
+                    &#x3C;th&#x3E;&#x521B;&#x5EFA;&#x65F6;&#x95F4;&#x3C;/th&#x3E;
+                    &#x3C;th&#x3E;&#x64CD;&#x4F5C;&#x3C;/th&#x3E;
+                &#x3C;/tr&#x3E;
+            &#x3C;/thead&#x3E;
+            &#x3C;tbody&#x3E;
+                ${users.map(u =&#x3E; {
+                    const role = roles.find(r =&#x3E; r.id === u.roleId) || { name: &#x27;&#x672A;&#x77E5;&#x27; };
+                    return &#x60;
+                    &#x3C;tr&#x3E;
+                        &#x3C;td&#x3E;${u.id}&#x3C;/td&#x3E;
+                        &#x3C;td&#x3E;${u.username}&#x3C;/td&#x3E;
+                        &#x3C;td&#x3E;${role.name}&#x3C;/td&#x3E;
+                        &#x3C;td&#x3E;${utils.formatDate(u.createdAt)}&#x3C;/td&#x3E;
+                        &#x3C;td&#x3E;
+                            &#x3C;button class=&#x22;btn btn-secondary edit-user&#x22; data-id=&#x22;${u.id}&#x22;&#x3E;&#x7F16;&#x8F91;&#x3C;/button&#x3E;
+                            ${u.id !== authService.currentUser.id ? &#x60;
+                            &#x3C;button class=&#x22;btn btn-danger delete-user&#x22; data-id=&#x22;${u.id}&#x22;&#x3E;&#x5220;&#x9664;&#x3C;/button&#x3E;
+                            &#x60; : &#x27;&#x27;}
+                        &#x3C;/td&#x3E;
+                    &#x3C;/tr&#x3E;
+                    &#x60;;
+                }).join(&#x27;&#x27;)}
+            &#x3C;/tbody&#x3E;
+        &#x3C;/table&#x3E;
+    &#x3C;/div&#x3E;
 
-        // 页面组件
-        async function homeComponent() {
-            const settings = await dbService.getAll('settings');
-            const siteName = settings.find(s => s.key === 'siteName')?.value || '神龙天团';
-            const siteDesc = settings.find(s => s.key === 'siteDescription')?.value || '企业管理系统';
-            
-            // 获取首页内容
-            let homeContent = localStorage.getItem('homeContent');
-            
-            return `
-                <header>
-                    <div class="container header-content">
-                        <div class="logo">${siteName}</div>
-                        <div class="nav">
-                            <a href="/" data-route>首页</a>
-                            <a href="/messages" data-route>消息</a>
-                            <a href="/resources" data-route>资源</a>
-                            <a href="/members" data-route>成员</a>
-                            ${authService.isSuperAdmin() ? '<a href="/admin" data-route>管理</a>' : ''}
-                            <a href="#" id="logout-link" data-route>退出</a>
-                        </div>
-                    </div>
-                </header>
-                <div class="main">
-                    <div class="container">
-                        <h1 class="page-title">${siteName}</h1>
-                        <div class="card">
-                            <p>${siteDesc}</p>
-                            <div id="home-editor"></div>
-                        </div>
-                        ${authService.isSuperAdmin() ? '<button class="btn btn-primary" id="edit-home">编辑首页</button>' : ''}
-                    </div>
-                </div>
-                <footer>
-                    <div class="container">© ${new Date().getFullYear()} ${siteName}</div>
-                </footer>
-            `;
+    &#x3C;div class=&#x22;card&#x22;&#x3E;
+        &#x3C;h2 class=&#x22;mb-10&#x22;&#x3E;&#x89D2;&#x8272;&#x7BA1;&#x7406;&#x3C;/h2&#x3E;
+        &#x3C;button id=&#x22;add-role&#x22; class=&#x22;btn btn-primary mb-10&#x22;&#x3E;&#x6DFB;&#x52A0;&#x89D2;&#x8272;&#x3C;/button&#x3E;
+        &#x3C;table class=&#x22;table&#x22;&#x3E;
+            &#x3C;thead&#x3E;
+                &#x3C;tr&#x3E;
+                    &#x3C;th&#x3E;ID&#x3C;/th&#x3E;
+                    &#x3C;th&#x3E;&#x89D2;&#x8272;&#x540D;&#x79F0;&#x3C;/th&#x3E;
+                    &#x3C;th&#x3E;&#x6743;&#x9650;&#x3C;/th&#x3E;
+                    &#x3C;th&#x3E;&#x64CD;&#x4F5C;&#x3C;/th&#x3E;
+                &#x3C;/tr&#x3E;
+            &#x3C;/thead&#x3E;
+            &#x3C;tbody&#x3E;
+                ${roles.map(r =&#x3E; &#x60;
+                &#x3C;tr&#x3E;
+                    &#x3C;td&#x3E;${r.id}&#x3C;/td&#x3E;
+                    &#x3C;td&#x3E;${r.name}&#x3C;/td&#x3E;
+                    &#x3C;td&#x3E;${r.permissions.join(&#x27;, &#x27;)}&#x3C;/td&#x3E;
+                    &#x3C;td&#x3E;
+                        &#x3C;button class=&#x22;btn btn-secondary edit-role&#x22; data-id=&#x22;${r.id}&#x22;&#x3E;&#x7F16;&#x8F91;&#x3C;/button&#x3E;
+                        ${r.permissions.includes(&#x27;all&#x27;) ? &#x27;&#x27; : &#x60;
+                        &#x3C;button class=&#x22;btn btn-danger delete-role&#x22; data-id=&#x22;${r.id}&#x22;&#x3E;&#x5220;&#x9664;&#x3C;/button&#x3E;
+                        &#x60;}
+                    &#x3C;/td&#x3E;
+                &#x3C;/tr&#x3E;
+                &#x60;).join(&#x27;&#x27;)}
+            &#x3C;/tbody&#x3E;
+        &#x3C;/table&#x3E;
+    &#x3C;/div&#x3E;
+&#x3C;/div&#x3E;
+&#x3C;footer&#x3E;
+    &#x3C;div class=&#x22;container&#x22;&#x3E;&#xA9; ${new Date().getFullYear()} &#x795E;&#x9F99;&#x5929;&#x56E2;&#x3C;/div&#x3E;
+&#x3C;/footer&#x3E;
+&#x60;;
+}
+// ===== 事件绑定 =====function setupEvents() {// 登出document.addEventListener('click', e => {if (e.target.id === 'logout') {e.preventDefault();authService.logout();router.navigate('/login');}});
+plaintext
+// &#x767B;&#x5F55;
+document.addEventListener(&#x27;submit&#x27;, async e =&#x3E; {
+    if (e.target.id === &#x27;login-form&#x27;) {
+        e.preventDefault();
+        const username = document.getElementById(&#x27;username&#x27;).value;
+        const password = document.getElementById(&#x27;password&#x27;).value;
+        const res = await authService.login(username, password);
+        if (res.success) {
+            UI.notify(&#x27;&#x767B;&#x5F55;&#x6210;&#x529F;&#x27;);
+            router.navigate(&#x27;/&#x27;);
+        } else {
+            UI.notify(res.message, &#x27;error&#x27;);
         }
+    }
+});
 
-        async function loginComponent() {
-            return `
-                <div class="main">
-                    <div class="login-page">
-                        <h1>登录系统</h1>
-                        <form id="login-form">
-                            <div class="form-group">
-                                <label for="username">用户名</label>
-                                <input type="text" id="username" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="password">密码</label>
-                                <input type="password" id="password" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block">登录</button>
-                        </form>
-                    </div>
-                </div>
-            `;
+// &#x521D;&#x59CB;&#x5316;&#x7BA1;&#x7406;&#x5458;
+document.addEventListener(&#x27;submit&#x27;, async e =&#x3E; {
+    if (e.target.id === &#x27;setup-form&#x27;) {
+        e.preventDefault();
+        const username = document.getElementById(&#x27;admin-username&#x27;).value;
+        const password = document.getElementById(&#x27;admin-password&#x27;).value;
+        const res = await authService.createAdmin(username, password);
+        if (res.success) {
+            UI.notify(&#x27;&#x7BA1;&#x7406;&#x5458;&#x521B;&#x5EFA;&#x6210;&#x529F;&#xFF0C;&#x8BF7;&#x767B;&#x5F55;&#x27;);
+            router.navigate(&#x27;/login&#x27;);
+        } else {
+            UI.notify(res.message, &#x27;error&#x27;);
         }
+    }
+});
 
-        async function setupComponent() {
-            const roles = await dbService.getAll('roles');
-            return `
-                <div class="main">
-                    <div class="container">
-                        <div class="card">
-                            <h2 class="card-title">系统初始化</h2>
-                            <p>欢迎使用神龙天团企业管理系统！请创建管理员账号。</p>
-                            <form id="setup-form">
-                                <div class="form-group">
-                                    <label for="admin-username">管理员用户名</label>
-                                    <input type="text" id="admin-username" value="admin" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="admin-password">管理员密码</label>
-                                    <input type="password" id="admin-password" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary">创建管理员</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
+// &#x521B;&#x5EFA;&#x6D88;&#x606F;
+document.addEventListener(&#x27;click&#x27;, async e =&#x3E; {
+    if (e.target.id === &#x27;create-post&#x27;) {
+        UI.modal(&#x27;&#x53D1;&#x5E03;&#x6D88;&#x606F;&#x27;, &#x60;
+            &#x3C;div class=&#x22;form-group&#x22;&#x3E;
+                &#x3C;label&#x3E;&#x6807;&#x9898;&#x3C;/label&#x3E;
+                &#x3C;input type=&#x22;text&#x22; id=&#x22;post-title&#x22; class=&#x22;input&#x22;&#x3E;
+            &#x3C;/div&#x3E;
+            &#x3C;div class=&#x22;form-group&#x22;&#x3E;
+                &#x3C;label&#x3E;&#x5185;&#x5BB9;&#x3C;/label&#x3E;
+                &#x3C;textarea id=&#x22;post-content&#x22; class=&#x22;input&#x22; rows=&#x22;5&#x22;&#x3E;&#x3C;/textarea&#x3E;
 
-        async function messagesComponent() {
-            const messages = await dbService.getAll('posts');
-            return `
-                <header>
-                    <div class="container header-content">
-                        <div class="logo">神龙天团</div>
-                        <div class="nav">
-                            <a href="/" data-route>首页</a>
-                            <a href="/messages" data-route class="active">消息</a>
-                            <a href="/resources" data-route>资源</a>
-                            <a href="/members" data-route>成员</a>
-                            ${authService.isSuperAdmin() ? '<a href="/admin" data-route>管理</a>' : ''}
-                            <a href="#" id="logout-link" data-route>退出</a>
-                        </div>
-                    </div>
-                </header>
-                <div class="main">
-                    <div class="container">
-                        <h1 class="page-title">官方消息</h1>
-                        ${authService.hasPermission('post:create') ? '<button class="btn btn-primary mb-20" id="create-post">发布消息</button>' : ''}
-                        <div class="posts-list">
-                            ${messages.length > 0 ? messages.map(msg => `
-                                <div class="card">
-                                    <h3>${msg.title}</h3>
-                                    <p>${new Date(msg.createdAt).toLocaleString()}</p>
-                                    <div class="post-content">${msg.content}</div>
-                                    ${authService.hasPermission('post:edit') ? `
-                                        <div class="post-actions" style="margin-top: 10px;">
-                                            <button class="btn btn-primary edit-post" data-id="${msg.id}">编辑</button>
-                                            <button class="btn btn-danger delete-post" data-id="${msg.id}">删除</button>
-                                        </div>
-                                    ` : ''}
-                                </div>
-                            `).join('') : '<p>暂无消息</p>'}
-                        </div>
-                    </div>
-                </div>
-                <footer>
-                    <div class="container">© ${new Date().getFullYear()} 神龙天团</div>
-                </footer>
-            `;
-        }
-
-        async function resourcesComponent() {
-            const resources = await dbService.getAll('resources');
-            return `
-                <header>
-                    <div class="container header-content">
-                        <div class="logo">神龙天团</div>
-                        <div class="nav">
-                            <a href="/" data-route>首页</a>
-                            <a href="/messages" data-route>消息</a>
-                            <a href="/resources" data-route class="active">资源</a>
-                            <a href="/members" data-route>成员</a>
-                            ${authService.isSuperAdmin() ? '<a href="/admin" data-route>管理</a>' : ''}
-                            <a href="#" id="logout-link" data-route>退出</a>
-                        </div>
-                    </div>
-                </header>
-                <div class="main">
-                    <div class="container">
-                        <h1 class="page-title">资源下载</h1>
-                        ${authService.hasPermission('resource:upload') ? `
-                            <div class="form-group">
-                                <input type="file" id="resource-upload" accept="*">
-                                <button class="btn btn-primary" id="upload-resource">上传资源</button>
-                            </div>
-                        ` : ''}
-                        <div class="resources-list">
-                            ${resources.length > 0 ? resources.map(res => `
-                                <div class="resource-item">
-                                    <div>
-                                        <h3>${res.name}</h3>
-                                        <p>${res.description}</p>
-                                        <small>${new Date(res.createdAt).toLocaleString()}</small>
-                                    </div>
-                                    <a href="${res.url}" class="btn btn-primary" download>下载</a>
-                                </div>
-                            `).join('') : '<p>暂无资源</p>'}
-                        </div>
-                    </div>
-                </div>
-                <footer>
-                    <div class="container">© ${new Date().getFullYear()} 神龙天团</div>
-                </footer>
-            `;
-        }
-
-        async function membersComponent() {
-            const members = await dbService.getAll('users');
-            return `
-                <header>
-                    <div class="container header-content">
-                        <div class="logo">神龙天团</div>
-                        <div class="nav">
-                            <a href="/" data-route>首页</a>
-                            <a href="/messages" data-route>消息</a>
-                            <a href="/resources" data-route>资源</a>
-                            <a href="/members" data-route class="active">成员</a>
-                            ${authService.isSuperAdmin() ? '<a href="/admin" data-route>管理</a>' : ''}
-                            <a href="#" id="logout-link" data-route>退出</a>
-                        </div>
-                    </div>
-                </header>
-                <div class="main">
-                    <div class="container">
-                        <h1 class="page-title">成员列表</h1>
-                        ${authService.isSuperAdmin() ? '<button class="btn btn-primary mb-20" id="add-member">添加成员</button>' : ''}
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>用户名</th>
-                                        <th>角色</th>
-                                        <th>创建时间</th>
-                                        ${authService.isSuperAdmin() ? '<th>操作</th>' : ''}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${member.map(async user => {
-                                        const role = await dbService.get('roles', user.roleId);
-                                        return `
-                                            <tr>
-                                                <td>${user.id}</td>
-                                                <td>${user.username}</td>
-                                                <td>${role ? role.name : '无角色'}</td>
-                                                <td>${new Date(user.createdAt).toLocaleString()}</td>
-                                                ${authService.isSuperAdmin() ? `
-                                                    <td>
-                                                        <button class="btn btn-danger delete-member" data-id="${user.id}">删除</button>
-                                                    </td>
-                                                ` : ''}
-                                            </tr>
-                                        `;
-                                    }).join('')}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <footer>
-                    <div class="container">© ${new Date().getFullYear()} 神龙天团</div>
-                </footer>
-            `;
-        }
-
-        async function adminComponent() {
-            if (!authService.isSuperAdmin()) {
-                return '<div class="main"><div class="container"><p>没有管理员权限</p></div></div>';
-            }
-            
-            const users = await dbService.getAll('users');
-            const roles = await dbService.getAll('roles');
-            
-            return `
-                <header>
-                    <div class="container header-content">
-                        <div class="logo">神龙天团</div>
-                        <div class="nav">
-                            <a href="/" data-route>首页</a>
-                            <a href="/messages" data-route>消息</a>
-                            <a href="/resources" data-route>资源</a>
-                            <a href="/members" data-route>成员</a>
-                            <a href="/admin" data-route class="active">管理</a>
-                            <a href="#" id="logout-link" data-route>退出</a>
-                        </div>
-                    </div>
-                </header>
-                <div class="main">
-                    <div class="container">
-                        <h1 class="page-title">管理员面板</h1>
-                        
-                        <div class="card mb-20">
-                            <h2 class="card-title">用户管理</h2>
-                            <button class="btn btn-primary mb-20" id="add-user">添加用户</button>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>用户名</th>
-                                        <th>角色</th>
-                                        <th>创建时间</th>
-                                        <th>操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${users.map(async user => {
-                                        const role = await dbService.get('roles', user.roleId);
-                                        return `
-                                            <tr>
-                                                <td>${user.id}</td>
-                                                <td>${user.username}</td>
-                                                <td>${role ? role.name : '无'}</td>
-                                                <td>${new Date(user.createdAt).toLocaleString()}</td>
-                                                <td>
-                                                    <button class="btn btn-primary edit-user" data-id="${user.id}">编辑</button>
-                                                    ${user.id !== authService.currentUser.id ? `
-                                                        <button class="btn btn-danger delete-user" data-id="${user.id}">删除</button>
-                                                    ` : ''}
-                                                </td>
-                                            </tr>
-                                        `;
-                                    }).join('')}
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <div class="card">
-                            <h2 class="card-title">角色管理</h2>
-                            <button class="btn btn-primary mb-20" id="add-role">添加角色</button>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>角色名称</th>
-                                        <th>权限</th>
-                                        <th>操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${roles.map(role => `
-                                        <tr>
-                                            <td>${role.id}</td>
-                                            <td>${role.name}</td>
-                                            <td>${role.permissions.join(', ')}</td>
-                                            <td>
-                                                <button class="btn btn-primary edit-role" data-id="${role.id}">编辑</button>
-                                                ${role.permissions.includes('all') ? '' : `
-                                                    <button class="btn btn-danger delete-role" data-id="${role.id}">删除</button>
-                                                `}
-                                            </td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <footer>
-                    <div class="container">© ${new Date().getFullYear()} 神龙天团</div>
-                </footer>
-            `;
-        }
-
-        // 注册路由
-        function setupRoutes() {
-            router.route('/', homeComponent);
-            router.route('/login', loginComponent);
-            router.route('/setup', setupComponent);
-            router.route('/messages', messagesComponent);
-            router.route('/resources', resourcesComponent);
-            router.route('/members', membersComponent);
-            router.route('/admin', adminComponent);
-            router.route('*', homeComponent);
-        }
-
-        // 设置事件监听
-        function setupEventListeners() {
-            // 登出按钮
-            document.addEventListener('click', (e) => {
-                if (e.target.id === 'logout-link') {
-                    e.preventDefault();
-                    authService.logout();
+            &#x3C;/div&#x3E;
+        &#x60;, [
+            { text: &#x27;&#x53D6;&#x6D88;&#x27;, action: () =&#x3E; {} },
+            { text: &#x27;&#x53D1;&#x5E03;&#x27;, className: &#x27;btn-primary&#x27;, action: async () =&#x3E; {
+                const title = document.getElementById(&#x27;post-title&#x27;).value;
+                const content = document.getElementById(&#x27;post-content&#x27;).value;
+                if (!title || !content) return UI.notify(&#x27;&#x6807;&#x9898;&#x548C;&#x5185;&#x5BB9;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&#x27;, &#x27;error&#x27;);
+                const db = await dbPromise;
+                await db.add(&#x27;posts&#x27;, { title, content, createdAt: utils.now() });
+                UI.notify(&#x27;&#x53D1;&#x5E03;&#x6210;&#x529F;&#x27;);
+                router.navigate(&#x27;/messages&#x27;);
+            }}
+        ]);
+    }
+});
+// 上传资源document.addEventListener ('click', e => {if (e.target.id === 'upload-resource') {document.getElementById ('resource-file').click ();}});document.addEventListener ('change', async e => {if (e.target.id === 'resource-file') {const file = e.target.files [0];if (!file) return;const url = URL.createObjectURL (file);const db = await dbPromise;await db.add ('resources', {name: file.name,description: '',url,size: ${(file.size / 1024).toFixed(2)}KB,createdAt: utils.now ()});UI.notify (' 上传成功 ');router.navigate ('/resources');}});
+// 添加成员document.addEventListener ('click', async e => {if (e.target.id === 'add-member') {const db = await dbPromise;const roles = await db.getAll ('roles');UI.modal (' 添加成员 ', `
+plaintext
+            &#x3C;div class=&#x22;form-group&#x22;&#x3E;
+                &#x3C;label&#x3E;&#x7528;&#x6237;&#x540D;&#x3C;/label&#x3E;
+                &#x3C;input type=&#x22;text&#x22; id=&#x22;new-username&#x22; class=&#x22;input&#x22;&#x3E;
+            &#x3C;/div&#x3E;
+            &#x3C;div class=&#x22;form-group&#x22;&#x3E;
+                &#x3C;label&#x3E;&#x5BC6;&#x7801;&#x3C;/label&#x3E;
+                &#x3C;input type=&#x22;password&#x22; id=&#x22;new-password&#x22; class=&#x22;input&#x22;&#x3E;
+            &#x3C;/div&#x3E;
+            &#x3C;div class=&#x22;form-group&#x22;&#x3E;
+                &#x3C;label&#x3E;&#x89D2;&#x8272;&#x3C;/label&#x3E;
+                &#x3C;select id=&#x22;new-role&#x22; class=&#x22;input&#x22;&#x3E;
+                    ${roles.map(r =&#x3E; &#x60;&#x3C;option value=&#x22;${r.id}&#x22;&#x3E;${r.name}&#x3C;/option&#x3E;&#x60;).join(&#x27;&#x27;)}
+                &#x3C;/select&#x3E;
+            &#x3C;/div&#x3E;
+        &#x60;, [
+            { text: &#x27;&#x53D6;&#x6D88;&#x27;, action: () =&#x3E; {} },
+            { text: &#x27;&#x6DFB;&#x52A0;&#x27;, className: &#x27;btn-primary&#x27;, action: async () =&#x3E; {
+                const username = document.getElementById(&#x27;new-username&#x27;).value;
+                const password = document.getElementById(&#x27;new-password&#x27;).value;
+                const roleId = parseInt(document.getElementById(&#x27;new-role&#x27;).value);
+                const res = await authService.register(username, password, roleId);
+                if (res.success) {
+                    UI.notify(&#x27;&#x6DFB;&#x52A0;&#x6210;&#x529F;&#x27;);
+                    router.navigate(&#x27;/members&#x27;);
+                } else {
+                    UI.notify(res.message, &#x27;error&#x27;);
                 }
-            });
-
-            // 登录表单
-            document.addEventListener('submit', async (e) => {
-                if (e.target.id === 'login-form') {
-                    e.preventDefault();
-                    const username = document.getElementById('username').value;
-                    const password = document.getElementById('password').value;
-                    const result = await authService.login(username, password);
-                    
-                    if (result.success) {
-                        router.navigate('/');
-                    } else {
-                        alert(result.message);
-                    }
-                }
-                
-                // 初始化管理员表单
-                if (e.target.id === 'setup-form') {
-                    e.preventDefault();
-                    const username = document.getElementById('admin-username').value;
-                    const password = document.getElementById('admin-password').value;
-                    
-                    const result = await authService.createAdminAccount(username, password);
-                    if (result.success) {
-                        alert('管理员账号创建成功！请登录。');
-                        router.navigate('/login');
-                    } else {
-                        alert(result.message);
-                    }
-                }
-            });
-
-            // 首页编辑
-            document.addEventListener('click', (e) => {
-                if (e.target.id === 'edit-home' && authService.isSuperAdmin()) {
-                    const saveCallback = (content) => {
-                        localStorage.setItem('homeContent', content);
-                    };
-                    
-                    const editor = new Editor('home-editor', saveCallback);
-                    const homeContent = localStorage.getItem('homeContent');
-                    if (homeContent) {
-                        editor.setContent(homeContent);
-                    }
-                }
-            });
-
-            // 上传资源
-            document.addEventListener('click', async (e) => {
-                if (e.target.id === 'upload-resource' && authService.hasPermission('resource:upload')) {
-                    const fileInput = document.getElementById('resource-upload');
-                    if (fileInput.files.length > 0) {
-                        const file = fileInput.files[0];
-                        
-                        // 创建文件URL
-                        const url = URL.createObjectURL(file);
-                        
-                        // 保存资源信息到数据库
-                        await dbService.add('resources', {
-                            name: file.name,
-                            description: prompt('请输入资源描述：'),
-                            url: url,
-                            size: `${(file.size / 1024).toFixed(2)} KB`,
-                            type: file.type
-                        });
-                        
-                        alert('资源上传成功！');
-                        router.navigate('/resources');
-                    } else {
-                        alert('请选择要上传的文件');
-                    }
-                }
-            });
-
-            // 添加成员
-            document.addEventListener('click', async (e) => {
-                if (e.target.id === 'add-member' && authService.isSuperAdmin()) {
-                    const username = prompt('请输入新成员用户名：');
-                    const password = prompt('请输入新成员密码：');
-                    
-                    if (username && password) {
-                        // 获取普通成员角色
-                        const roles = await dbService.getAll('roles');
-                        const memberRole = roles.find(r => r.name === '普通成员');
-                        
-                        if (memberRole) {
-                            await authService.register({
-                                username,
-                                password,
-                                roleId: memberRole.id
-                            });
-                            
-                            alert('成员添加成功！');
-                            router.navigate('/members');
-                        } else {
-                            alert('没有找到普通成员角色');
-                        }
-                    }
-                }
-            });
-
-            // 删除成员
-            document.addEventListener('click', async (e) => {
-                if (e.target.classList.contains('delete-member') && authService.isSuperAdmin()) {
-                    const userId = parseInt(e.target.getAttribute('data-id'));
-                    if (confirm('确定要删除这个成员吗？')) {
-                        await dbService.delete('users', userId);
-                        alert('成员已删除');
-                        router.navigate('/members');
-                    }
-                }
-            });
-
-            // 创建消息
-            document.addEventListener('click', async (e) => {
-                if (e.target.id === 'create-post' && authService.hasPermission('post:create')) {
-                    const title = prompt('请输入消息标题：');
-                    const content = prompt('请输入消息内容：');
-                    
-                    if (title && content) {
-                        await dbService.add('posts', {
-                            title,
-                            content,
-                            author: authService.currentUser.username,
-                            authorId: authService.currentUser.id
-                        });
-                        
-                        alert('消息发布成功！');
-                        router.navigate('/messages');
-                    }
-                }
-            });
-        }
-
-        // 初始化应用
-        async function initializeApp() {
-            try {
-                await dbService.init();
-                await authService.init();
-                setupRoutes();
-                setupEventListeners();
-            } catch (err) {
-                console.error('应用初始化失败:', err);
-                const container = document.getElementById('router-view');
-                container.innerHTML = `<div class="main"><div class="container"><p>应用初始化失败: ${err.message}</p></div></div>`;
-            }
-        }
-
-        // 启动应用
-        initializeApp();
-    </script>
-</body>
-</html>
+            }}
+        ]);
+    }
+});
+// 删除成员document.addEventListener ('click', async e => {if (e.target.classList.contains ('delete-member')) {const id = parseInt (e.target.getAttribute ('data-id'));UI.confirm (' 确定删除该成员吗？', async () => {const db = await dbPromise;await db.delete ('users', id);UI.notify (' 删除成功 ');router.navigate ('/members');});}});}
+// ===== 初始化 =====async function init () {try {await authService.init ();const db = await dbPromise;const users = await db.getAll ('users');if (users.length === 0) {router.route ('/', setupPage);router.route ('/login', setupPage);} else {router.route ('/', homePage);router.route ('/login', loginPage);}router.route ('/messages', messagesPage);router.route ('/resources', resourcesPage);router.route ('/members', membersPage);router.route ('/admin', adminPage);router.route ('*', homePage);
+router.setBeforeEach(async (path) => {const publicRoutes = ['/login', '/setup'];if (!authService.currentUser && !publicRoutes.includes(path)) {router.navigate('/login');return false;}if (authService.currentUser && path === '/login') {router.navigate('/');return false;}return true;});
+router.setAfterEach ((path) => {console.log (' 路由切换到:', path);document.querySelectorAll ('.nav a').forEach (a => {if (a.getAttribute ('href') === path) {a.classList.add ('active');} else {a.classList.remove ('active');}});});
+// 事件监听bus.on ('auth:login', (user) => {UI.notify (欢迎, ${user.username});router.navigate ('/');});bus.on ('auth:logout', () => {UI.notify (' 已退出登录 ');router.navigate ('/login');});
+setupEvents ();router.handleRoute ();} catch (err) {console.error (' 应用初始化失败 ', err);document.getElementById ('router-view').innerHTML = <div class="main container"><div class="card"><p>应用初始化失败: ${err.message}</p></div></div>;}}init();</script>
+</body></html>
