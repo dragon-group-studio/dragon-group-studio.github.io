@@ -1,0 +1,162 @@
+[
+  {
+    "id": "iptv_main",
+    "name": "公开IPTV直播订阅（推荐·央视+卫视+地方台）",
+    "baseUrl": "https://live.zbds.top/tv/iptv4.m3u",
+    "group": "live",
+    "type": "m3u",
+    "enabled": true,
+    "priority": 1,
+    "note": "2026年常用公开源，频道数量多，即开即用。KVideo 会自动解析整个列表，效果最接近有线电视。"
+  },
+  {
+    "id": "iptv_backup",
+    "name": "备用IPTV直播订阅（GitHub维护）",
+    "baseUrl": "https://raw.githubusercontent.com/dongyubin/IPTV/main/iptv4.m3u",
+    "group": "live",
+    "type": "m3u",
+    "enabled": true,
+    "priority": 2,
+    "note": "dongyubin 项目最新维护源，频道较全，稳定性较好，用于学习备份。"
+  },
+  {
+    "id": "cctv1",
+    "name": "CCTV-1 综合",
+    "baseUrl": "http://39.134.115.163:8080/PLTV/88888910/224/3221225618/index.m3u8",
+    "group": "live",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 3,
+    "note": "央视一台综合频道（公开测试源）"
+  },
+  {
+    "id": "cctv2",
+    "name": "CCTV-2 财经",
+    "baseUrl": "http://39.134.115.163:8080/PLTV/88888910/224/3221225619/index.m3u8",
+    "group": "live",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 4,
+    "note": "央视财经频道"
+  },
+  {
+    "id": "cctv3",
+    "name": "CCTV-3 综艺",
+    "baseUrl": "http://39.134.115.163:8080/PLTV/88888910/224/3221225620/index.m3u8",
+    "group": "live",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 5,
+    "note": "央视综艺频道"
+  },
+  {
+    "id": "cctv4",
+    "name": "CCTV-4 中文国际",
+    "baseUrl": "http://39.134.115.163:8080/PLTV/88888910/224/3221225621/index.m3u8",
+    "group": "live",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 6,
+    "note": "央视中文国际频道"
+  },
+  {
+    "id": "cctv5",
+    "name": "CCTV-5 体育",
+    "baseUrl": "http://39.134.115.163:8080/PLTV/88888910/224/3221225622/index.m3u8",
+    "group": "live",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 7,
+    "note": "央视体育频道（热门）"
+  },
+  {
+    "id": "cctv5p",
+    "name": "CCTV-5+ 体育赛事",
+    "baseUrl": "http://39.134.115.163:8080/PLTV/88888910/224/3221225623/index.m3u8",
+    "group": "live",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 8,
+    "note": "央视体育赛事频道"
+  },
+  {
+    "id": "cctv6",
+    "name": "CCTV-6 电影",
+    "baseUrl": "http://39.134.115.163:8080/PLTV/88888910/224/3221225624/index.m3u8",
+    "group": "live",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 9,
+    "note": "央视电影频道"
+  },
+  {
+    "id": "cctv7",
+    "name": "CCTV-7 国防军事",
+    "baseUrl": "http://39.134.115.163:8080/PLTV/88888910/224/3221225625/index.m3u8",
+    "group": "live",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 10,
+    "note": "央视国防军事频道"
+  },
+  {
+    "id": "cctv8",
+    "name": "CCTV-8 电视剧",
+    "baseUrl": "http://39.134.115.163:8080/PLTV/88888910/224/3221225626/index.m3u8",
+    "group": "live",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 11,
+    "note": "央视电视剧频道"
+  },
+  {
+    "id": "cctv9",
+    "name": "CCTV-9 纪录",
+    "baseUrl": "http://39.134.115.163:8080/PLTV/88888910/224/3221225627/index.m3u8",
+    "group": "live",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 12,
+    "note": "央视纪录频道"
+  },
+  {
+    "id": "cctv10",
+    "name": "CCTV-10 科教",
+    "baseUrl": "http://39.134.115.163:8080/PLTV/88888910/224/3221225628/index.m3u8",
+    "group": "live",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 13,
+    "note": "央视科教频道"
+  },
+  {
+    "id": "cctv13",
+    "name": "CCTV-13 新闻",
+    "baseUrl": "http://39.134.115.163:8080/PLTV/88888910/224/3221225631/index.m3u8",
+    "group": "live",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 14,
+    "note": "央视新闻频道"
+  },
+  {
+    "id": "cctv14",
+    "name": "CCTV-14 少儿",
+    "baseUrl": "http://39.134.115.163:8080/PLTV/88888910/224/3221225632/index.m3u8",
+    "group": "live",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 15,
+    "note": "央视少儿频道"
+  },
+  {
+    "id": "public_archive",
+    "name": "公共领域经典电影测试",
+    "baseUrl": "https://archive.org/download/ExampleMovie/ExampleMovie_512kb.mp4",
+    "group": "test",
+    "type": "video",
+    "enabled": true,
+    "priority": 16,
+    "note": "合法公共领域测试视频，用于验证播放功能"
+  }
+]
