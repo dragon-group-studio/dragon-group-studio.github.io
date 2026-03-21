@@ -1,0 +1,422 @@
+[
+  {
+    "id": "iptv_main",
+    "name": "公开IPTV直播订阅（推荐·央视+卫视+地方台）",
+    "baseUrl": "https://live.zbds.top/tv/iptv4.m3u",
+    "group": "live",
+    "type": "m3u",
+    "enabled": true,
+    "priority": 1,
+    "note": "2026年常用公开源，频道数量多，即开即用。KVideo 会自动解析整个列表，效果最接近有线电视。"
+  },
+  {
+    "id": "iptv_backup",
+    "name": "备用IPTV直播订阅（GitHub维护）",
+    "baseUrl": "https://raw.githubusercontent.com/dongyubin/IPTV/main/iptv4.m3u",
+    "group": "live",
+    "type": "m3u",
+    "enabled": true,
+    "priority": 2,
+    "note": "dongyubin 项目最新维护源，频道较全，稳定性较好，用于学习备份。"
+  },
+  {
+    "id": "cctv1",
+    "name": "CCTV-1 综合",
+    "baseUrl": "https://live.fanmingming.com/cctv1/HD.m3u8",
+    "group": "央视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 3,
+    "note": "央视综合频道（高清）"
+  },
+  {
+    "id": "cctv2",
+    "name": "CCTV-2 财经",
+    "baseUrl": "https://live.fanmingming.com/cctv2/HD.m3u8",
+    "group": "央视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 4,
+    "note": "央视财经频道"
+  },
+  {
+    "id": "cctv3",
+    "name": "CCTV-3 综艺",
+    "baseUrl": "https://live.fanmingming.com/cctv3/HD.m3u8",
+    "group": "央视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 5,
+    "note": "央视综艺频道"
+  },
+  {
+    "id": "cctv4",
+    "name": "CCTV-4 中文国际",
+    "baseUrl": "https://live.fanmingming.com/cctv4/HD.m3u8",
+    "group": "央视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 6,
+    "note": "央视中文国际频道"
+  },
+  {
+    "id": "cctv5",
+    "name": "CCTV-5 体育",
+    "baseUrl": "https://live.fanmingming.com/cctv5/HD.m3u8",
+    "group": "央视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 7,
+    "note": "央视体育频道（热门）"
+  },
+  {
+    "id": "cctv5p",
+    "name": "CCTV-5+ 体育赛事",
+    "baseUrl": "https://live.fanmingming.com/cctv5plus/HD.m3u8",
+    "group": "央视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 8,
+    "note": "央视体育赛事频道"
+  },
+  {
+    "id": "cctv6",
+    "name": "CCTV-6 电影",
+    "baseUrl": "https://live.fanmingming.com/cctv6/HD.m3u8",
+    "group": "央视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 9,
+    "note": "央视电影频道"
+  },
+  {
+    "id": "cctv7",
+    "name": "CCTV-7 国防军事",
+    "baseUrl": "https://live.fanmingming.com/cctv7/HD.m3u8",
+    "group": "央视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 10,
+    "note": "央视国防军事频道"
+  },
+  {
+    "id": "cctv8",
+    "name": "CCTV-8 电视剧",
+    "baseUrl": "https://live.fanmingming.com/cctv8/HD.m3u8",
+    "group": "央视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 11,
+    "note": "央视电视剧频道"
+  },
+  {
+    "id": "cctv9",
+    "name": "CCTV-9 纪录",
+    "baseUrl": "https://live.fanmingming.com/cctv9/HD.m3u8",
+    "group": "央视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 12,
+    "note": "央视纪录频道"
+  },
+  {
+    "id": "cctv10",
+    "name": "CCTV-10 科教",
+    "baseUrl": "https://live.fanmingming.com/cctv10/HD.m3u8",
+    "group": "央视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 13,
+    "note": "央视科教频道"
+  },
+  {
+    "id": "cctv13",
+    "name": "CCTV-13 新闻",
+    "baseUrl": "https://live.fanmingming.com/cctv13/HD.m3u8",
+    "group": "央视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 14,
+    "note": "央视新闻频道"
+  },
+  {
+    "id": "cctv14",
+    "name": "CCTV-14 少儿",
+    "baseUrl": "https://live.fanmingming.com/cctv14/HD.m3u8",
+    "group": "央视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 15,
+    "note": "央视少儿频道"
+  },
+  {
+    "id": "hunan_tv",
+    "name": "湖南卫视",
+    "baseUrl": "https://live.fanmingming.com/hunan/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 16,
+    "note": "湖南卫视高清"
+  },
+  {
+    "id": "zhejiang_tv",
+    "name": "浙江卫视",
+    "baseUrl": "https://live.fanmingming.com/zhejiang/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 17,
+    "note": "浙江卫视高清"
+  },
+  {
+    "id": "jiangsu_tv",
+    "name": "江苏卫视",
+    "baseUrl": "https://live.fanmingming.com/jiangsu/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 18,
+    "note": "江苏卫视高清"
+  },
+  {
+    "id": "dongfang_tv",
+    "name": "东方卫视",
+    "baseUrl": "https://live.fanmingming.com/dongfang/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 19,
+    "note": "东方卫视高清"
+  },
+  {
+    "id": "beijing_tv",
+    "name": "北京卫视",
+    "baseUrl": "https://live.fanmingming.com/beijing/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 20,
+    "note": "北京卫视高清"
+  },
+  {
+    "id": "guangdong_tv",
+    "name": "广东卫视",
+    "baseUrl": "https://live.fanmingming.com/guangdong/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 21,
+    "note": "广东卫视高清"
+  },
+  {
+    "id": "shenzhen_tv",
+    "name": "深圳卫视",
+    "baseUrl": "https://live.fanmingming.com/shenzhen/HD.m3u8",
+    "group": "地方",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 22,
+    "note": "深圳卫视高清"
+  },
+  {
+    "id": "tianjin_tv",
+    "name": "天津卫视",
+    "baseUrl": "https://live.fanmingming.com/tianjin/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 23,
+    "note": "天津卫视高清"
+  },
+  {
+    "id": "shandong_tv",
+    "name": "山东卫视",
+    "baseUrl": "https://live.fanmingming.com/shandong/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 24,
+    "note": "山东卫视高清"
+  },
+  {
+    "id": "anhui_tv",
+    "name": "安徽卫视",
+    "baseUrl": "https://live.fanmingming.com/anhui/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 25,
+    "note": "安徽卫视高清"
+  },
+  {
+    "id": "heilongjiang_tv",
+    "name": "黑龙江卫视",
+    "baseUrl": "https://live.fanmingming.com/heilongjiang/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 26,
+    "note": "黑龙江卫视高清"
+  },
+  {
+    "id": "liaoning_tv",
+    "name": "辽宁卫视",
+    "baseUrl": "https://live.fanmingming.com/liaoning/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 27,
+    "note": "辽宁卫视高清"
+  },
+  {
+    "id": "henan_tv",
+    "name": "河南卫视",
+    "baseUrl": "https://live.fanmingming.com/henan/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 28,
+    "note": "河南卫视高清"
+  },
+  {
+    "id": "hubei_tv",
+    "name": "湖北卫视",
+    "baseUrl": "https://live.fanmingming.com/hubei/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 29,
+    "note": "湖北卫视高清"
+  },
+  {
+    "id": "jiangxi_tv",
+    "name": "江西卫视",
+    "baseUrl": "https://live.fanmingming.com/jiangxi/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 30,
+    "note": "江西卫视高清"
+  },
+  {
+    "id": "chongqing_tv",
+    "name": "重庆卫视",
+    "baseUrl": "https://live.fanmingming.com/chongqing/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 31,
+    "note": "重庆卫视高清"
+  },
+  {
+    "id": "guizhou_tv",
+    "name": "贵州卫视",
+    "baseUrl": "https://live.fanmingming.com/guizhou/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 32,
+    "note": "贵州卫视高清"
+  },
+  {
+    "id": "yunnan_tv",
+    "name": "云南卫视",
+    "baseUrl": "https://live.fanmingming.com/yunnan/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 33,
+    "note": "云南卫视高清"
+  },
+  {
+    "id": "sichuan_tv",
+    "name": "四川卫视",
+    "baseUrl": "https://live.fanmingming.com/sichuan/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 34,
+    "note": "四川卫视高清"
+  },
+  {
+    "id": "shanxi_tv",
+    "name": "山西卫视",
+    "baseUrl": "https://live.fanmingming.com/shanxi/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 35,
+    "note": "山西卫视高清"
+  },
+  {
+    "id": "jilin_tv",
+    "name": "吉林卫视",
+    "baseUrl": "https://live.fanmingming.com/jilin/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 36,
+    "note": "吉林卫视高清"
+  },
+  {
+    "id": "gansu_tv",
+    "name": "甘肃卫视",
+    "baseUrl": "https://live.fanmingming.com/gansu/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 37,
+    "note": "甘肃卫视高清"
+  },
+  {
+    "id": "ningxia_tv",
+    "name": "宁夏卫视",
+    "baseUrl": "https://live.fanmingming.com/ningxia/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 38,
+    "note": "宁夏卫视高清"
+  },
+  {
+    "id": "qinghai_tv",
+    "name": "青海卫视",
+    "baseUrl": "https://live.fanmingming.com/qinghai/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 39,
+    "note": "青海卫视高清"
+  },
+  {
+    "id": "xinjiang_tv",
+    "name": "新疆卫视",
+    "baseUrl": "https://live.fanmingming.com/xinjiang/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 40,
+    "note": "新疆卫视高清"
+  },
+  {
+    "id": "xizang_tv",
+    "name": "西藏卫视",
+    "baseUrl": "https://live.fanmingming.com/xizang/HD.m3u8",
+    "group": "卫视",
+    "type": "m3u8",
+    "enabled": true,
+    "priority": 41,
+    "note": "西藏卫视高清"
+  },
+  {
+    "id": "public_archive",
+    "name": "公共领域经典电影测试",
+    "baseUrl": "https://archive.org/download/ExampleMovie/ExampleMovie_512kb.mp4",
+    "group": "test",
+    "type": "video",
+    "enabled": true,
+    "priority": 99,
+    "note": "合法公共领域测试视频，用于验证播放功能"
+  }
+]
